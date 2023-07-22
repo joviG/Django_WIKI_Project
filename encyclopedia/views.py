@@ -26,7 +26,4 @@ def entry_page(request, title):
 
 
 def new_page(request):
-    return render(request, "encyclopedia/new-page.html", {
-        'edit_page_title': '',
-        'edit_page_content': ''
-    })
+    return render(request, "encyclopedia/new-page.html")

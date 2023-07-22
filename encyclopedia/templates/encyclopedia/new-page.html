@@ -10,4 +10,36 @@
         {% else %} Create a New Page 
         {% endif %}
     </h1>
+    <form>
+        <div id="entry-title-section" class="row">
+            <div class="container">
+                <div class="row">
+                    <label for="title">
+                        Title of the new wiki entry:
+                    </label>
+                </div>
+                <div class="row">
+                    <input name="title" placeholder="type new entry title..." id="title" type="text">
+                </div>
+            </div>
+        </div>
+        
+        <div id="entry-body-section" class="row">
+            <div class="container">
+                <div class="row">
+                    <label for="entry-content">Enter your entry contents in Markdown format here... </label>
+                </div>
+                <div>
+                    <textarea 
+                    id="entry-content"
+                    name="entry-content" 
+                    placeholder="type your entry...">
+
+                    </textarea>
+                </div>
+            </div>
+            
+        </div>
+
+    </form>
 {% endblock %}
