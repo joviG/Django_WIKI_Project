@@ -11,34 +11,22 @@ def index(request):
     })
 
 
-def encyclopedia_entry(request, title):
+def entry_page(request, title):
     '''
     Calls the utility function to get the content of requested encyclopedia
     '''
-    try:
-        content = get_entry(title)
-        content_html = markdown(content)
-        return render(request, 'entry.html', {      # Render a page that displays the content of the entry
-            'title': title,
-            'content': content_html
-        })
+    entry_contents = get_entry(title)
+    html_entry_content = markdown(entry_contents) if entry_contents else None
 
-    except:
-        content = get_entry(title)
-        return render(request, 'error.html', {
-            'error_message': 'Page not found'
-        })
+    return render(request, "encyclopedia/entry.html", {
+        "title": title if entry_contents is not None else "Error",
+        "body_content": html_entry_content,
+        "entry_exists": entry_contents is not None
+    })
 
-    # # pass the title as a parameter to the function
-    # content = get_entry(title)
 
-    # if not content:
-    #     return render(request, 'error.html', {  # Render an error page indicating that the requested page was not found
-    #         'error_message': 'Page not found'
-    #     })
-
-    # content_html = markdown(content)
-    # return render(request, 'entry.html', {      # Render a page that displays the content of the entry
-    #     'title': title,
-    #     'content': content_html
-    # })
+def new_page(request):
+    return render(request, "encyclopedia/new-page.html", {
+        'edit_page_title': '',
+        'edit_page_content': ''
+    })

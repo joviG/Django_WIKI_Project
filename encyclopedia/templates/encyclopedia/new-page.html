@@ -1,0 +1,13 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block tittle %}
+    Encyclopedia - {% if edit_mode %} Edit page: {{edit_page_title}} {% else %} Create a New Page {% endif %}
+{% endblock %}
+
+{% block body %}
+    <h1>
+        {% if edit_mode %} Edit Page: {{edit_page_title}} 
+        {% else %} Create a New Page 
+        {% endif %}
+    </h1>
+{% endblock %}
