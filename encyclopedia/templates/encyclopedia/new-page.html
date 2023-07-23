@@ -10,7 +10,13 @@
         {% else %} Create a New Page 
         {% endif %}
     </h1>
-    <form>
+    <form class="container" method="post" action=
+    {% if edit_mode %} "{% url 'save edited page' edit_page_title %}" 
+    {% else %} "{% url 'save_page' %}" 
+    {% endif %}>
+    <!-- first if edit mode is True: the statement will be executed
+        else: if edit mode is False: t -->
+        {% csrf_token %}
         <div id="entry-title-section" class="row">
             <div class="container">
                 <div class="row">
@@ -34,12 +40,13 @@
                     id="entry-content"
                     name="entry-content" 
                     placeholder="type your entry...">
-
                     </textarea>
                 </div>
             </div>
-            
         </div>
 
+        <div id="entry-submit-button" class="row">
+            <input type="submit" value="Save new page">
+        </div>
     </form>
 {% endblock %}
