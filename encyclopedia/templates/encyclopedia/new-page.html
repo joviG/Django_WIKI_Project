@@ -12,7 +12,7 @@
     </h1>
     <form class="container" method="post" action=
     {% if edit_mode %} "{% url 'save edited page' edit_page_title %}" 
-    {% else %} "{% url 'save_page' %}" 
+    {% else %} "{% url 'save page' %}" 
     {% endif %}>
     <!-- first if edit mode is True: the statement will be executed
         else: if edit mode is False: t -->

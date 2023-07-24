@@ -39,17 +39,16 @@ def save_page(request, title=None):
     if request.method == 'GET':
         return HttpResponseRedirect(reverse("index"))
     else:
-        # Used an assert method to check if method condition hold true during the execution
-        assert (request.method == 'POST')
+        # assert method checks if method condition == true during the execution
+        assert request.method == 'POST'
         entry_content = request.POST['entry-content']
+        # Use the title from request.POST if available
+        title = title or request.POST['title', '']
+
         if not title:
-            # now saving the new page
-            title = request.POST['title']
-            if title.lower() in [entry.lower() for entry in util.list_entries()]:
-                return render(request, "encyclopedia/error.html", {
-                    "error_title": "saving page",
-                    "error_message": "An entry with that title already exists! Please change the title and try again."
-                })
+            return render(request, "encyclopedia/error.html", {
+                'error_message': 'Please be sure, you provided a title...'
+            })
 
         filename = wiki_entries_directory + title + ".md"
         with open(filename, "w") as f:
