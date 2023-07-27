@@ -1,5 +1,5 @@
 from markdown2 import markdown
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -43,7 +43,7 @@ def save_page(request, title=None):
         assert request.method == 'POST'
         entry_content = request.POST['entry-content']
         # Use the title from request.POST if available
-        title = title or request.POST['title', '']
+        title = request.POST.get('title', None)  # = title or...
 
         if not title:
             return render(request, "encyclopedia/error.html", {
@@ -53,4 +53,5 @@ def save_page(request, title=None):
         filename = wiki_entries_directory + title + ".md"
         with open(filename, "w") as f:
             f.write(entry_content)
-        return HttpResponseRedirect(reverse("entry", args=(title)))
+        return HttpResponseRedirect(reverse("index"))
+        # return redirect(filename)
