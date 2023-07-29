@@ -5,15 +5,8 @@
 {% endblock %}
 
 {% block body %}
-    <h1>
-        {% if edit_mode %} Edit Page: {{edit_page_title}} 
-        {% else %} Create a New Page 
-        {% endif %}
-    </h1>
-    <form class="container" method="post" action=
-    {% if edit_mode %} "{% url 'save edited page' edit_page_title %}" 
-    {% else %} "{% url 'save page' %}" 
-    {% endif %}>
+    <h1>{% if edit_mode %} Edit Page: {{edit_page_title}} {% else %} Create a New Page {% endif %}</h1> 
+    <form class="container" method="post" action={% if edit_mode %} "{% url 'save edited page' edit_page_title %}" {% else %} "{% url 'save page' %}" {% endif %}>
     <!-- first if edit mode is True: the statement will be executed
         else: if edit mode is False: t -->
         {% csrf_token %}
@@ -25,7 +18,8 @@
                     </label>
                 </div>
                 <div class="row">
-                    <input name="title" placeholder="type new entry title..." id="title" type="text">
+                    <input name="title" placeholder="type new entry title..." id="title"
+                    value="{{ edit_page_title}}" {% if edit_mode %} disabled {% endif %}>
                 </div>
             </div>
         </div>
@@ -33,13 +27,12 @@
         <div id="entry-body-section" class="row">
             <div class="container">
                 <div class="row">
-                    <label for="entry-content">Enter your entry contents in Markdown format here... </label>
+                    <label for="entry-content">Wiki entry body content:</label>
                 </div>
-                <div>
-                    <textarea 
-                    id="entry-content"
-                    name="entry-content" 
-                    placeholder="type your entry...">
+                
+                <div class="row">
+                    <textarea id="entry-content" name="entry-content" placeholder="enter your entry contents in Markdown format here...">
+                        {{ edit_page_contents }}
                     </textarea>
                 </div>
             </div>
