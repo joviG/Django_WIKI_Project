@@ -88,4 +88,4 @@ def edit_page(request, title):
 
 def random_page(request):
     entry_title = random.choice(util.list_entries())
-    return HttpResponseRedirect(reverse("entry", args=(entry_title)))
+    return HttpResponseRedirect(reverse("entry", args=(entry_title,)))

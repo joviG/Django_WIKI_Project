@@ -1,1 +1,0 @@
-                    pegas is a flying horse
