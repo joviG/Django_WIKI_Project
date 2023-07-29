@@ -1,3 +1,6 @@
+import re
+import random
+
 from markdown2 import markdown
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
@@ -29,6 +32,20 @@ def entry_page(request, title):
     })
 
 
+def search(request):
+    query = request.GET['q']
+    if util.get_entry(query):
+        # query matches a title
+        return HttpResponseRedirect(reverse("entry", args=(query,)))
+    else:
+        # query does not match!
+        return render(request, "encyclopedia/index.html", {
+            "entries": [entry for entry in util.list_entries() if query.lower() in entry.lower()],
+            "title": f'"{query}" search results',
+            "heading": f'Search Results for "{query}"'
+        })
+
+
 def new_page(request):
     return render(request, "encyclopedia/new-page.html", {
         'edit_mode': False
@@ -55,3 +72,20 @@ def save_page(request, title=None):
             f.write(entry_content)
         return HttpResponseRedirect(reverse("index"))
         # return redirect(filename)
+
+
+def edit_page(request, title):
+    entry_contents = util.get_entry(title)
+    if entry_contents is None:
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        return render(request, "encyclopedia/new-page.html", {
+            'edit_mode': True,
+            'edit_page_title': title,
+            'edit_page_contents': entry_contents
+        })
+
+
+def random_page(request):
+    entry_title = random.choice(util.list_entries())
+    return HttpResponseRedirect(reverse("entry", args=(entry_title)))
